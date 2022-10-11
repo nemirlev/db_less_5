@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  postgres:
+  postgres-lib:
     image: postgres:latest
     environment:
       POSTGRES_DB: "teacher"
@@ -8,7 +8,19 @@ services:
       POSTGRES_PASSWORD: "teacher"
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
-      - docker/db/scripts:/docker-entrypoint-initdb.d
-      - dz:/var/lib/postgresql/data
+      - ./docker/db/scripts/lib:/docker-entrypoint-initdb.d
+      - ./docker/db/data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "6200:5432"
+  postgres-train:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "teacher"
+      POSTGRES_USER: "teacher"
+      POSTGRES_PASSWORD: "teacher"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./docker/db/scripts/train:/docker-entrypoint-initdb.d
+#      - ./docker/db/data:/var/lib/postgresql/data
+    ports:
+      - "6201:5432"
